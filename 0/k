@@ -1,0 +1,45 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    0;
+    object      k;
+}
+dimensions [0 2 -2 0 0 0 0];
+internalField uniform 0.00015; //U = 1.0 (1%);
+boundaryField
+{
+    XMin
+    {
+        type            turbulentIntensityKineticEnergyInlet;
+        type fixedValue;
+        value uniform 0.00015;
+
+    }
+    XMax
+    {
+        type zeroGradient;
+    }
+    YMin
+    {
+        type zeroGradient;
+    }
+    YMax
+    {
+        type zeroGradient;
+    }
+    ZMin
+    {
+        type zeroGradient;
+    }
+    ZMax
+    {
+        type zeroGradient;
+    }
+    ball
+    {
+        type kqRWallFunction;
+        value uniform 0.0;
+    }
+}

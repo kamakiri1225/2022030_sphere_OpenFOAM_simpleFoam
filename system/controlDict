@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     simpleFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         500;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   100;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+{
+  forceCoeffs
+  {
+    type forceCoeffs;
+    libs
+      (
+        "libforces.so"
+      );
+    writeControl timeStep;
+    timeInterval 1;
+    log no;
+    patches
+      (
+        ball
+      );
+    rho rhoInf;
+    rhoInf 1;
+    liftDir (0 1 0);
+    dragDir (1 0 0);
+    CofR (-1.4503e-05 2.28624e-06 -0.000131355);
+    pitchAxis (0 0 1);
+    magUInf 1.0;
+    lRef 0.25;
+    Aref 0.049093946015625;
+  }
+  residuals
+  {
+    type residuals;
+    libs
+      (
+        "libutilityFunctionObjects.so"
+      );
+    fields
+      (
+        U
+        p
+        k
+        epsilon
+      );
+  } 	//#includeFunc residuals(U,p,k,epsilon);
+#includeFunc yPlus
+#includeFunc CourantNo
+}
+
+// ************************************************************************* //
